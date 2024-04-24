@@ -5,11 +5,20 @@ import "../style.scss"
 export default function TikTakToe() {
     let [count, setCount] = useState(0)
     const [icon, setIcon] = useState(false)
+    const [player, setPlayer] = useState("X")
     const [title, setTitle] = useState("")
     const [arr, setArr] = useState(new Array(9).fill(""))
     const click = (e, index) => {
-        arr[index] = icon ? "X" : "O"
+        // arr[index] = icon ? "X" : "O"
+        arr[index] = player
+        if(player == "X"){
+            setPlayer("O")
+        }
+        else{
+            setPlayer("X")
+        }
         setIcon(!icon)
+        
         winner()
     }
 
@@ -38,14 +47,14 @@ export default function TikTakToe() {
         else if (arr[2] == arr[4] && arr[4] == arr[6] && arr[6] != "") {
             won(arr[6])
         }
-
     }
     const won = (g) => {
         setIcon(true)
+        setPlayer(null)
         if (g === "X") {
             setTitle("Winner X")
         }
-
+        
         else {
             setTitle("Winner O")
         }
@@ -54,12 +63,12 @@ export default function TikTakToe() {
     const resetClick = () => {
         setArr(new Array(9).fill(""))
         setTitle("")
+        setPlayer("X")
     }
 
     return (
         <div className="gameCont">
             <div className="title">{`Tic Tac Toe Game `}<span>{title}</span></div>
-            
             <div className="box">
                 {arr.map((elem, index) => {
                     return <div key={index} onClick={(e) => { click(e, index) }}>{elem}</div>
